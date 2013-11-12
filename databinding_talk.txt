@@ -1,0 +1,22 @@
+Used 
+
+    SetupProperty<float>(PROPERTY_FADE_OUT, DEFAULT_FADE_OUT, OnFadeOut);
+
+to deal with fade out, but this is actually quite inflexible. Better method is something like:
+
+    _PropertyDefaultText = SetupProperty<string>(ref PathDefaultText, "defaultText", _Input.defaultText, OnDefaultTextChanged);
+
+First argument is a null string that will get the full length of the property, so that we don't need to worry about the hierarchy of the JSON changing.  
+
+
+
+UIRoot has child UICamera.
+UICamera has an NGUIRoot, which is a DataContextDispatcher.
+
+
+Problem is if I am to add a @ rerouter it will have to be to the UICamera, ideally before Reset is called. Considering it's currently called from Reset that's not going to happen with out a refactor.
+
+
+At the moment we're just getting a single item, but we don't want that. We want the key, then the details
+
+What is another example in the codebase where an array needs to be kept of DC info?

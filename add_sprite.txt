@@ -1,0 +1,31 @@
+
+***** File Modifications *****
+Add param to Client/Squads/View/SquadsDisplayConfig.cs
+Add to the switch in SquadMeshDisplay.cs (careful about whether it is infantry, ranged or cavalry)
+and client/Lobby/GUI/ArmyConfigurationVC.cs
+
+***** Changes to the scene *****
+
+-- LobbyClient.unity --
+
+NGUI -> Open the Atlas Maker
+Select -> Select "SquadSpriteAtlas"
+Select in the project view the sprite you want to use- it should appear in the Atlas window. Click Add.
+
+Open up the Table folder, located here:
+UI Root (2D)
+    Anchor
+        Army Configuration Panel
+            Squad List
+                Table
+                    
+Clone any of them, and change the sprite of the Background object (under the Gameobject with the squad's name) to your image.
+
+-- BattleClient.unity --
+
+Get the SquadsDisplayConfig component, on the Sprites GameObject located here: Config --> Sprites
+Find your parameter (that you wrote in the SquadsDisplayConfig file) and assign the corresponding material
+
+
+****************************************************************************
+NB: this requires an update to work, so wait till after I've pushed

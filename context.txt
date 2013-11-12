@@ -1,0 +1,15 @@
+To route the request to the DataContext directly? Via the handler? Container using the CheckProxy?
+Should be done via an Accessor, for now we'll do it all in the Container
+
+Color and type:
+
+
+Accessors and Controllers
+Both used to act on a DataContext (although they don't have to)
+Follow pattern of getting the property from the DataContext and then setting it.
+
+
+Dash Container Storage Location:
+Store path above squad in the hierachy (requires giving each PathContainer a refernce to the squad)
+Modify world position directly
+Modify world position through fragment (need to extend binder)

@@ -1,0 +1,98 @@
+Missiles are currently operated on at a Session level.
+This helps decouple the missiles from the units which spawned them.
+To keep this design, we'll have to have a container at the session level.
+
+Matter of ordering.
+
+Get MissileData
+Send it all to the dispatcher -> MissileContainer
+Then the MC's responsibility to use the key to get the info from the 
+
+
+
+
+
+Missile contorller will be responsible for making a URI and keeping track of the keys
+If a missile is missing then it must be destroyed (use dictionary and index)
+
+Missing link at the moment MissileStrike
+MissileStrike is triggered via a SessionEvent. This can be dispatched normally I hope- should contain a key as one of the parameters
+
+Strange bug when class shares name with namespace
+
+
+Now a key issue. How to give each arrow an individual key without hacking the URI
+
+
+
+
+Today Goals:
+X Get multiple missile sprites
+X Get them disappearing on strike
+X Get prefabs and missiles in
+X Trail
+X Get explosions on strike
+Rotation - need to standarise initial rotation
+Trail bug - need to decouple trail from from the DataContext (so it will persist for a bit). Park's idea is to let it fly into the ground (be destroyed later)
+
+
+Dispatcher can currently either take a key or a URI
+
+Get the key:
+Change the key by hacking the URI, or by modifiying the request after it's created
+
+Hacking the uri is pretty much what we're doing now
+
+Hack the URI
+This will be before dispatch.
+Missile controller will get and modify the URI, then dispatch it.
+Benefits: Uses flexibilty of the databinding system so easier for artists to iterate
+Drawbacks: Slower
+            Feels hacky
+
+Probably best to do URI hack first, then a PathContainer style implementation when we're sure what it needed
+
+
+
+Missile contexts will have keys like:
+missile_1_sprite
+
+We need the key to destroy the object, but we can't be sure ahead of time what the suffix of the key will be.
+
+We need to suffix to allow multiple effects per missile, so it must stay.
+We could store the keys in an array of string arrays, then pull them out to destroy.
+    Cons:
+        Wasted space, feels messy.o
+
+
+Why don't we give the destroy responsibility to the effects file?
+This makes sense, but we still need the key of the missile data object to figure out what we're destroying. How to get the key for an expired data object?
+
+Another problem, if Missile A has Effects X and Y, and Missile B has Effect Z, what happens when B takes A's position in the array?
+We need to keep keys with different keys separate.
+This might need to be done at the server side- have a list of lists of missiles.
+
+
+Otherwise we could put the 'arrow' in the key:
+missile_1_arrow_sprite. 
+This means we could target the relevant missiles directly.
+
+
+
+Sending Dictionary<string, List<MissileData>> across the network is crashing, need another way to send grouped information to the client.
+Let's do it form the client's perspective first, then work backwards
+
+Each key has its own iterator. When the iterator runs less than on the previous turn, we call the keys destroy uri's for all remaining contexts.
+
+Dictionary of keys and counts in the MissileController, and we create using the 'arrow' key, so we can delete it later.
+
+
+Trail is a problem.
+
+The trail needs to persist beyond the life of the DataContext that spawns it.
+The DataContext must die immediately, as another DataContext might come take its place.
+Need to decouple the trail effect from the DataContext. Then the trail can die out when it's tail runs out.
+
+
+Use unique id for each missile.
+Destroy on strike- makes far more sense than keeping track the way I currently am.

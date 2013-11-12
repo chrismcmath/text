@@ -1,0 +1,25 @@
+set tartget Squad_blue_b_3(cavalry) (SG.Battle.Common.Squads.Squad)
+UnityEngine.Debug:Log(Object)
+SG.Battle.Common.Squads.TargetAspect:SetTarget(Squad) (at Assets/Scripts/Battle/Common/Squads/TargetAspect.cs:74)
+SG.Battle.Common.Squads.TargetAspect:OnPathFinished(Boolean, Path) (at Assets/Scripts/Battle/Common/Squads/TargetAspect.cs:58)
+SG.Battle.Common.Lines.Path:FinishPath(Boolean) (at Assets/Scripts/Battle/Common/Lines/Path.cs:90)
+SG.Battle.Common.Lines.PathPainter:OnDrag(DragGesture) (at Assets/Scripts/Battle/Common/Lines/PathPainter.cs:65)
+SG.Battle.Client.Squads.SquadPathPainter:OnDrag(DragGesture) (at Assets/Scripts/Battle/Client/Squads/SquadPathPainter.cs:57)
+UnityEngine.GameObject:SendMessage(String, Object, SendMessageOptions)
+GestureRecognizer`1:RaiseEvent(T) (at Assets/Plugins/Common/FingerGestures/Scripts/Base/GestureRecognizer.cs:572)
+ContinuousGestureRecognizer`1:OnStateChanged(Gesture) (at Assets/Plugins/Common/FingerGestures/Scripts/Base/ContinuousGestureRecognizer.cs:62)
+Gesture:set_State(GestureRecognitionState) (at Assets/Plugins/Common/FingerGestures/Scripts/Base/GestureRecognizer.cs:138)
+GestureRecognizer`1:UpdateGesture(T, IFingerList) (at Assets/Plugins/Common/FingerGestures/Scripts/Base/GestureRecognizer.cs:516)
+GestureRecognizer`1:UpdateUsingClusters() (at Assets/Plugins/Common/FingerGestures/Scripts/Base/GestureRecognizer.cs:372)
+GestureRecognizer`1:Update() (at Assets/Plugins/Common/FingerGestures/Scripts/Base/GestureRecognizer.cs:349)
+
+
+
+
+It appears like by the time the LineType is set from NONE to NORMAL, the _Type in the PathContainer has already been set to normal.
+
+
+The binder has the property to set, but how to change it. 
+
+
+Can't really put colour/alpha as an attribute in the DataContext as it is not to be used for any GameObject. Could potentially superclass Binder, but seems a little steep. Can't really do that as the color property exists on distinct data types.

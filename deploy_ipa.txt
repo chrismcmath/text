@@ -1,0 +1,9 @@
+From root of game:
+./autobuild/tool/main
+
+scp /Users/chrismcmath/main/autobuild/build/archive/main.20130711-052140.ipa team@10.0.1.2:Sites/main.ipa
+
+Password: Blueskies08 (or else add public ssh key to the .shh/authorized keys on the server)
+
+
+remember ./ will search in the current directory

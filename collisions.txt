@@ -1,0 +1,9 @@
+
+
+
+Collisions
+
+
+UpdateMovement has the effect of pushing more
+
+UpdateMovementFix is a misnomer- moving the cursor position does not appear to fix the problem.

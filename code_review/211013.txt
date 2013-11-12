@@ -1,0 +1,28 @@
+*** Missile Smoothing Code Review ***
+
+*** Naming Conventions ***
+
+Giving meaningful and accurate names for every variable (especially parameters) is paramount for future understanding.
+Look at this line of code:
+                DispatchMissileKey(key, data.Key, data.Position, OffsetRotation(data.Rotation), data.Id);
+
+What is the key? What is the data.Key? Elsewhere in the file, we also have effectsKey and missileKey- how do these differ? Park says it took him half an hour (and bear in mind this is half an hour of Park time) to understand everything that was going on due to the lack of consistant and demonstrative naming structure (the server side used its own set of variable names).
+Worse yet, the meaning is incorrect. Keys are unique, whereas the use in this class is more like a 'type' or even 'visual key'. Another example:
+                public void DispatchMissileKey(string effectsKey, string missileKey, Vector3 pos, Quaternion rot, int iteration) {
+
+Firstly, iteration is used here to mean ID, which itself convoultes the meaning (iteration infers this method is being called within a loop). Secondly, the ID (nee 'iteration') is one of the most important parameters in this function. It should not be placed after pos and rot, which are dynamic variables subject to change.
+
+These is a basic mistake, and like code duplication will not be tolerated.
+
+
+*** Data Types ***
+
+A fair few times in the missile system a rotation is used, modified and sent hither or thither. The format it takes (or at least used to take) was a Quaternion. However, the end point (where it is sent into the DataContext system) takes a Vector3. Furthermore, many of the computations on it involve converting it into a Vector3, and back again. This is needless waste and confusing to anyone reading the code.
+
+
+*** NetGame ***
+
+NetGame holds the only two updates in the code base: Update() for the client, FixedUpdate() for the server. 
+The real magic of the smoothing occurs in the Server_SyncGame function and the RPC_Client_SyncGame function. The latter will adjust the clock if the last package was delayed too long (defined at the bottom of SmoothNetGame, values are Min, Default and Max in the Vector3).
+All objects which need to be synced/updated derive from NetObject, and must register with the NetGame in order to be updated.
+The client receives the servers data in real time, but delays it (at the moment by 100ms, again see SmoothNetGame). This means any delay up to 100ms will be swallowed.

@@ -1,0 +1,19 @@
+When problems with unity arise, try:
+
+Delete plist editor files (rm ~/Library/Preferences/com.unity3d.Unity*)
+Delete Temp folder
+Delete Library folder
+
+
+
+Batching occurs between openGL draw calls:
+glBegin(GL_LINES);
+...
+    glVertex3f(circle.x + k,circle.y - h,0);
+...
+glEnd();
+
+Objects can only be batched if they i) have the same mesh and ii) have the same material (shader and texture)
+
+
+

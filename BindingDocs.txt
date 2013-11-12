@@ -1,0 +1,69 @@
+************************************
+************ Snapdragon ************
+************************************
+
+This system combines the flexibility of various sprite/display solutions with a light-weight server->client triggered events.
+
+The myriad of visual libraries and requirements for a lightweight server->client event system led the creation of this system.
+
+
+To use this system, one can either create a new prefab, or load their image into one of the pre-existing prefabs.
+
+****** Creating a New Prefab ****** 
+Create an empty GameObject in the project Hierarchy. Add whichever supported component you would like to use. If a component is not supported you will have to create your own binder for it (see Creating a Binder).
+
+Now, with your GameObject hightlighted, select DataBinding > Bootstraps from the Tools dropdown menu. This will add a DataContext and all relevant Binders to the GameObject.
+
+If you want to be able to send YYY effects to this object (which you do) click on the 'Add Connect Handler' button on the Data Context component. This will add a DataContextHandler.
+
+****** Understanding the DataContext ****** 
+The DataContext maintains the state of the GameObject. When you change a property via an effects string, it is the DataContext that will hold the new value and update all connected visual components (via Binders).
+ 
+****** Triggering Effects Using a DataContextHandler ****** 
+If you wish to experiment sending effect strings using the DataContextHandler, you will have to play the scene to force the Game View to continually update. Otherwise, click on the Game View to update it manually.
+
+Effects are coded into strings with the following syntax:
+
+do?zoom=2
+sprite/any?#color=1,0,1,1
+
+Preceeding the question mark (and after the last, if any, forward slash) is the command. Handlers have four possible commands;
+do - update the properties on an object
+get - get a particular property or set of properties
+set - set a particular property or set of properties
+fire - fire a single event
+
+After the hash is a fragment. These fragments are passed from the Handler or any proxy to the GameObject's DataContext.
+
+****** Triggering Effects Using a DataContextContainer ******
+Often you will want to enact visual effects and changes on a selection of different objects. The DataContextContainer is a component that manages and acts as a proxy for any number of children (which can be either have DataContextHandlers or other DataContextContainers???). 
+You can experiment by creating an empty GameObject and adding a DataContextContainer (either manually or via the Tools > DataBinding > Add DataContextContainer dropdown menu option.
+
+DataContextContainers act as proxies for their children; they create new GameObjects, and forward changes to exisiting ones. Similiary to normal Handlers, DataContextContainers have 7 possible commands;
+do - passes the fragments onto the GameObject specified in the Key
+create - creates an single GameObject with the specified Key
+destroy - destroys the GameObject specified with the Key 
+spawn - can be used to create multiple GameObjects at once. Use the group attribute to assign to a particular group.
+group - passes the fragments to all members of the specified group
+all - passes the URI to all children, not that you must specify a command as an attribute (
+all?cmd=do#zoom=4#zoom=2)
+any - passes the fragments to a randomly selected child
+
+
+****** Groups ****** 
+
+Groups can be used to modify a subset of GameObjects. A GameObject can be placed within a group by passing a parameter upon creation.
+
+
+
+My own questions
+
+Can you send a series of fragments direct to the handler on a visual object?
+
+
+****** Currently Supported Components ****** 
+tk2dSprite
+XffectComponent
+HOTweenComponent
+
+

@@ -1,0 +1,78 @@
+1. Need to have check for path type change.
+This could be in the PathContainer, but it needs to be called.
+Want to prevent unnecessary calls through the data context, which is what SqController is doing
+
+Going from a hidden line to showing a line is a very special case.
+
+
+
+
+CreateDirectPath nonsense
+
+Do we want the path to be identicle? I think so. Even if there's lag, that's better than maintaining two sets of paths
+
+
+Path is drawn from target to chased squad, but is not cleared when unit engages.
+
+Test with melee only units seemed to work ok. When squad attacks other though the line stays still during the attack.
+
+
+
+Seems like it's literally just a matter of wiping the line when the unit engages.
+
+So when is the best time to clear the line? Presumeable when the user first engages with a squad.
+
+
+Still matter of horse not disengaging catapult when engaged.
+
+
+Target to Engaged seems to be where the clear path is missing.
+
+Only have a line between units when the units are actually attacking!
+
+
+Units are not always getting the right data- sometimes the cleared path stays and sometimes it does not appear when it should
+
+We're losing targets at the moment
+
+
+So it has a target, but it's not making a line to it.A
+
+I actually broke this when I made the path clear after losing an engaged enemy, so why not just put an extra condition in there?
+
+
+Squad is moving when it should be still, attacking
+
+
+//TODO: (CM)  still not done
+Still managing to run and fire, need to solve this issue next
+
+
+Target line issue - line is set to normal after target dies, but at that point there are no dashes or points to consider
+
+
+Why might the line not be appearing automagically? 
+So
+
+Seems like unit is still in it's duration period, which is stopping it from doing a lot.
+
+
+
+In the json it looks like this:
+duration and interval
+
+Need to dec
+
+
+NGUI
+New UI in new scene
+
+Use Park's anchors (in scene)
+Container is our stuff (our ui)
+Anchor is v high level 
+
+List in code of items to add
+
+
+
+AILogger was in the wrong place. Should not have Squad code near to Opening and Closing of a stream- it should be more generic. i.e. have function to write with formating staticly, but keep the actual use (using Squad et al) separated.

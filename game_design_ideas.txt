@@ -1,0 +1,20 @@
+Pondering Playstyles
+
+A giant that cannot hide in the forest 
+    --> User can use them to fake their other squad's position
+    --> Must have other advantage, eg Berkserker-style regeneration
+    !!! How to show visually? Could look weird
+
+Catapults lose a bit of health every time they fire (won't fire when health too low)
+    --> Be strageic with use and placement
+    --> Makes doctor more powerful
+
+Units that are unaffected by terrain (flight) or inverse terrain (water is fast)
+    --> Prevents grouping of squads
+    --> Forces player to think more strategically about squad movement (speed, distance and route all factors)
+    --> Allows greater variety of playstyles
+
+Dragging ally's troop will allow you to drop a pin on the map with an icon inidacting the unit that was dragged.
+This unit will appear on the ally's map, showing where you want them to move.
+The ally can then drag the icon elsewhere, or delete it.
+

@@ -1,0 +1,9 @@
+
+
+Client- Visualization of line
+    Requires line length, position (cursor) and type (forced, target)
+    Needs to appear smooth when draw (no stutter, min move threshold), consistent (no bunched dashes)
+
+Server- Logic of line
+    Requires all(?) user input points,
+    Needs to be able to get closest point intelligently, manipulate points of the line, update the Client line, integrate with pathfinding

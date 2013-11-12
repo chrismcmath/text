@@ -1,0 +1,105 @@
+****************************************************************************************************
+******************************************** bug_01.ipa ********************************************
+****************************************************************************************************
+
+Stable      Unstable        Result
+8 darters   1 darter        OK
+8 darters   2 darters       Crash (but only if they attack together)
+8 darters   4 darters       Crash
+8 darters   8 darters       Crash
+
+ditto for archers and catapults
+
+
+
+****************************************************************************************************
+******************************************** bug_02.ipa ********************************************
+****************************************************************************************************
+With prefabs
+
+Both crash upon war
+
+xcode debugger:
+
+(Filename: /Applications/buildAgent/work/812c4f5049264fad/Runtime/ExportGenerated/iPhonePlayer-armv7/UnityEngineDebug.cpp Line: 43)
+
+Attrib  in list System.String[] did not contain '='.
+UnityEngine.Debug:Internal_Log(Int32, String, Object)
+UnityEngine.Debug:LogError(Object)
+SG.Common.Utils.Log:Error(String, Object[])
+SG.Common.Utils.Helper:ParseAttribs(String, Dictionary`2&)
+SG.Common.Utils.ObjectPool:GetKeyAndAttribs(String, String&, Dictionary`2&)
+SG.Client.Squads.View.SquadSpriteDisplay:CuePersistentEffect(String, String, Boolean)
+SG.Client.Squads.View.SquadSpriteDisplay:CueSquadEffect(String, String, Boolean)
+SG.Client.Squads.View.SquadDisplayRouter:RouteSquadEffect(String, String, Boolean)
+SG.Client.Squads.View.SquadDisplayRouter:CueSquadEffect(String, Boolean)
+SG.Client.Squads.View.SquadDisplayRouter:SetInGroup(Boolean)
+SG.Client.Group.SquadsGroupController:OnSelectSquads(SplinePath)
+SG.Client.Group.SquadsGroupController:OnPathFinished(Boolean, SplinePath)
+SG.Common.Spline.SplinePath:FinishPath(Boolean)
+SG.Common.Spline.SplinePathPainter:OnDrag(DragGesture)
+SG.Client.Group.GroupSelectionPainter:OnGroupSelect(DragGesture)
+UnityEngine.GameObject:SendMessage(String, Object, SendMessageOptions)
+GestureRecognizer`1:RaiseEvent(T)
+ContinuousGestureRecognizer`1:OnStateChanged(Gesture)
+Gesture:set_State(GestureRecognitionState)
+GestureRecognizer`1:UpdateGesture(T, IFingerList)
+GestureRecognizer`1:UpdateExclusive()
+GestureRecognizer`1:Update()
+ 
+ (Filename: /Applications/buildAgent/work/812c4f5049264fad/Runtime/ExportGenerated/iPhonePlayer-armv7/UnityEngineDebug.cpp Line: 43)
+
+ Attrib  in list System.String[] did not contain '='.
+ UnityEngine.Debug:Internal_Log(Int32, String, Object)
+ UnityEngine.Debug:LogError(Object)
+ SG.Common.Utils.Log:Error(String, Object[])
+ SG.Common.Utils.Helper:ParseAttribs(String, Dictionary`2&)
+ SG.Common.Utils.ObjectPool:GetKeyAndAttribs(String, String&, Dictionary`2&)
+ SG.Client.Squads.View.SquadSpriteDisplay:CueEffect(String)
+ SG.Client.Squads.View.SquadSpriteDisplay:CuePersistentEffect(String, String, Boolean)
+ SG.Client.Squads.View.SquadSpriteDisplay:CueSquadEffect(String, String, Boolean)
+ SG.Client.Squads.View.SquadDisplayRouter:RouteSquadEffect(String, String, Boolean)
+ SG.Client.Squads.View.SquadDisplayRouter:CueSquadEffect(String, Boolean)
+ SG.Client.Squads.View.SquadDisplayRouter:SetInGroup(Boolean)
+ SG.Client.Group.SquadsGroupController:OnSelectSquads(SplinePath)
+ SG.Client.Group.SquadsGroupController:OnPathFinished(Boolean, SplinePath)
+ SG.Common.Spline.SplinePath:FinishPath(Boolean)
+ SG.Common.Spline.SplinePathPainter:OnDrag(DragGesture)
+ SG.Client.Group.GroupSelectionPainter:OnGroupSelect(DragGesture)
+ UnityEngine.GameObject:SendMessage(String, Object, SendMessageOptions)
+ GestureRecognizer`1:RaiseEvent(T)
+ ContinuousGestureRecognizer`1:OnStateChanged(Gesture)
+ Gesture:set_State(GestureRecognitionState)
+ GestureRecognizer`1:UpdateGesture(T, IFingerList)
+ GestureRecognizer`1:UpdateExclusive()
+ GestureRecognizer`1:Update()
+  
+  (Filename: /Applications/buildAgent/work/812c4f5049264fad/Runtime/ExportGenerated/iPhonePlayer-armv7/UnityEngineDebug.cpp Line: 43)
+
+  System.String doesn't implement interface System.Collections.IEnumerator
+  * Assertion: should not be reached at mini-trampolines.c:183
+
+  (lldb) 
+
+****************************************************************************************************
+******************************************** bug_03.ipa ********************************************
+****************************************************************************************************
+
+This build uses static values for the key and attribsDict (thus no string parsing).
+No errors.
+
+****************************************************************************************************
+******************************************** bug_04.ipa ********************************************
+****************************************************************************************************
+
+Errors in this build, would *sometimes* crash upon missile launch
+
+
+****************************************************************************************************
+******************************************** bug_05.ipa ********************************************
+****************************************************************************************************
+
+Seems to be fixed after:
+
+Added link.xml to game/Assets
+Commented out many Log.Errors in Helper parsing functions

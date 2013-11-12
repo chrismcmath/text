@@ -1,0 +1,48 @@
+******************************************************************************************************************************************************
+Cavalry charge
+Triggered on being x distance from squad - THIS MEANS TRIGGERS NEED TO BE PARAMETERIZED
+Buff created on trigger "charge"
+
+??? Spell triggered on attack -> melee damage++ buff and removes the charge buff.
+Question, how does this spell get triggered? 
+
+remove_buffs: [
+    {
+        target: self/enemy
+        target_radius: 3
+        remove_buff: "charge"
+    }
+]
+******************************************************************************************************************************************************
+Need way of syncing certain attribs with the client for display -> watched attribs in the AttribController 
+Now events are being fired, but who will listen to them - AttribAspect
+
+Nope nope nope, all wrong. Need to make a SquadEvent, not a SessionEvent.
+
+Should attribs be kept at the session or player level? Player level.
+Also need to move all view stuff out into the view controller framework
+
+
+Now we're in trouble. Do we need to send information about buffs ahead of time?
+Probably not that urgent. Much simpler if we don't, plus the latency won't be evident as the time it takes for the logic (based on new buffs) to reach the client, the buffs would already be there. BUT, this does mean we need to sync the buffs, not static attrib values.
+SquadAttrib changes and visualisation of buffs should almost certainly be treated differently. We can presume all buffs will need to be visualised, whereas only a few attrib changes are needed to be shown on the client.
+
+A problem with my current system is that I'm effectively running two non-synchronised (really don't know what word I want here) systems on the client and the server. To the client, attribs are all that changeds, and buffs are entirely different.
+
+Another method would be to have the watched list on the client, 
+
+Problem is with this is we'd have to send more information- i.e. the delta on each buff, which means more data.
+
+This decision needs to be made after the meeting.
+
+******************************************************************************************************************************************************
+Sensor size must be dynamic, getting attribs from AttribController
+Also, sensors are currently being updated every frame through the Sensors Controller, perhaps make only the callee resp. for updating it.
+
+******************************************************************************************************************************************************
+Certain parts of the Aspects rely on the Config, and now the server-side only AttribController. Find way to decouple the server logic (used by the BT) from the rest.
+
+******************************************************************************************************************************************************
+CURRENT: Modify UpdateMissileImpactPosition in MissileController to use localPosition- will also need to change CanDetect in Sensors
+
+******************************************************************************************************************************************************

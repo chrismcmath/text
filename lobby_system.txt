@@ -1,0 +1,27 @@
+
+
+
+
+
+DevLauncher
+    -> Has Lobby and Battle discovery, which pass back data when they find anything.
+    -> When rediscover is clicked, it'll update the DataContext Lobby items property thusly:
+        Global.Instance.GetUIProperty<ItemList>("dev/lobby/_items").Value = _LobbyServers;
+
+
+Discovery Client
+    -> Has a UdpServer, listens to its data iwth OnServerResponse handler
+    -> Upon receieving a response, it sends a processed version to its DiscoveryWatchers
+
+
+UdpServer
+    -> operates on another thread
+    -> Loom allows a function to be called on the main thread (it is initialized at the top)
+    -> Uses _Server (a System.Net.Sockets.UdpClient) 
+    -> Has a delegate DataListener or when data arrives
+    -> Listens to an AsyncCallback with OnReceived, gets data and restarts Receive after passing all data to listeners on the main thread
+
+
+Questions:
+    -> How is data being transfered from one screen to the next?
+    

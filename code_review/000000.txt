@@ -1,0 +1,67 @@
+Conversation with Park 30/08/13
+
+*** Path Model ***  
+
+Series of small splines:
+*---*---*---*---*---*---*---*---*---*---*---*
+
+They can be linked by making sure the knots at the ends have exactly the same handle positions.
+Using a series of splines makes the interpolation more accurate, and helps solve locality problems (such as position correction in collision avoidance).
+Furthermore, if we wish to use Megaspline to create a rope or shape from the spline at a later point, we can just join them all together and use that.
+Each spline (sub-spline) should be used as part of a data structure that stores the length (and potentially interpolated values for dash positions) of the spline.
+Position would be stored via sub-spline index and cursor position (similar to VectorPath).
+
+Potential for line correction (align knots onto a line if within a certain threshold) and path correction (follow road) at a later point.
+
+
+*** Game Design ***  
+
+Are we going after a high-level, low APM game (powerful forced move, targeted attack) ?
+Or a low-level, high APM game (blocking, no forced move, no targeted attack) ?
+
+Squad guard formations - draw path in a circle to create a set circular route which squad will follow. Draw another squad's path to anywhere on this formation and it will walk up to and join the formation too.
+
+There is no discernible difference between normal and forced move at the moment.
+
+ 
+*** Visual Framework ***  
+
+Data binding will be used as a layer between the Visual Framework and APIs (2DToolkit, Xffect).
+Individual controllers will most likely be unnecessary, as the binding and APIs will deal with the information.
+
+
+*** Area for Improvement ***  
+
+Personal mistake I keep making is around a problem domain.
+When creating something in a space I am not familiar with (i.e. sprites) research is vital.
+Before I shrugged it off by "not having enough time", but as Park indicated I don't have time not to research.
+Take the initiate, learn something thoroughly with the endgame in mind.
+This is a foundational difference between architecting and programming.
+Also consider when facilitating another's work, how their workflow is constructed.
+If the workflow is complicated and confused it is essentially wasting their time.
+
+
+
+
+*** Duplication ***
+
+Duplication is the devil. Any code duplication will be treated with a fish to the face, and a trunchen up the bumpkin.
+In this case, I could have used composition and/or static utility functions (as I did with SpriteUtils) to reduce CueSpriteEffect/PersistantEffect duplication between Squad and Session
+
+
+*** IoC ***
+
+Think about where the power is in a workflow.
+For instance, with the visual framework Pin and Dan must be able to edit and change the visuals with as little input (ideally none) from us as possible.
+This should have been a foundational design concern that would have led to the realisation that we must use Prefabs (objects they can edit easily)
+This is turn would have had a large impact on the architecting of the systems.
+
+
+*** Power of Scripting ***
+
+Using scripting in the JSON file allows far more flexibility and power for the system. Iterating earlier designs could have realised this.
+
+
+*** Can't See the Wood for the Trees ***
+
+Whole point of using URL system was we'd be able to use C#'s native URL parsing support. I managed to forget this somehow.

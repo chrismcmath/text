@@ -1,0 +1,63 @@
+Behaviour Tree:
+
+Currently exists as an AspectCoordinator/Aspects which assigns a series of states, and a BT which uses those states (as well as other attribs) to determine behaviour.
+
+This has resulted in some unintuitive code in the AspectCoordinator (hidden functionality that the user needs to keep in mind while modifying the BT) and a large behaviour tree with reused roots (not necessarily a bad thing).
+
+Andrew's idea:
+
+Create something approaching a state machine that will contain BT-esque nuggets. The BT then only needs be triggered every x milliseconds, and the state can be forced to change on the fly (i.e. MeleeEngagedReciprocate).
+
+This will allow us to move the Aspect Coord logic either to the States themselves (eg override OnNewPathSet) or out to the squadcontroller (ImmobilizeEnemy)
+
+Pros: Easier to visualise BT behaviour, can have less calls to BT
+Cons: Splitting behaviour between BT and States (not holistic), 
+
+
+With the current methodology we still need to move various things out
+Pros: Bigger, more descriptive BT,
+Cons: Unintuitive AspectCoordinator
+
+
+Problem comes from behaviour being part BT and part user input. We'll always need the ability for the user to effect/override behaviours, how to make this as simple as possible?
+
+
+        So we're trying to solve three issues:
+        1) Visualise the BT for debugging
+        2) Allow ability to decrease number of calls to BT (?)
+        3) Mitigate against user input complexity 
+
+
+Squad *-- BehaviourState
+
+On AspectStatus change -> Run BT again (assigning a new behaviour state at the end)
+
+
+
+
+
+Apps:
+
+Graphing:
+Graphite - overkill?
+
+
+In-app:
+prime 31- poor, but large, showcase
+
+
+Loggin:
+Graylog2 looks great
+
+
+
+Visual effect framework:
+    Create mesh (dashed line)
+    Improve the usage of Vectrosity (draw line backwards)
+    Write own libs to render with OpenGl
+
+
+Methods for stopping overloading:
+Pool objects
+Queue them (two per frame)
+

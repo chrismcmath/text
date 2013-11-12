@@ -1,0 +1,81 @@
+API
+
+Delay (for abilities), args (for spells), trigger_args,  are 0 is not explicitly stated. RepeatInterval will not be checked if not repeat. 
+
+
+
+Spells
+key: "none"
+arg: 0
+repeat: false
+repeatInterval: 0
+
+
+/*
+Design
+*/
+
+SQUADS have POWERS which allow them to create POWER_INSTANCES.
+POWERS are essentially triggers in the Decision Tree that lead to the creation of POWER_INSTANCES.
+
+POWER_INSTANCES can themselves have other POWER_INSTANCES
+POWER_INSTANCES can have SENSORS which are sensitive to explicit groups
+
+POWER_INSTANCES can either be one-shot affairs (melee hit) or recurring
+
+POWER_INSTANCE can either be triggered by events, or are permanent (i.e. triggered at the start of the game?)
+eg. The POWER of healing is a POWER_INSTANCE which is 
+
+POWER_INSTANCE has a TARGET, which can be a Squad or Position
+
+BUFFS have a timer on themselves. Thus, they can be given as part of a one-shot POWER_INSTANCE
+
+
+Seems like Melee & Ranged attacks are to be isolated from this system. 
+
+
+/*
+Examples
+*/
+
+Berserker Regeration
+The POWER at game start inits the POWER_INSTANCE which acts on the SQUAD and then re-adds itself at time+x seconds
+
+Doctor
+The POWER at game start inits the POWER_INSTANCE (HP++) which uses the SQUADS position and SENSOR, re-adding itself after
+
+Tree Darter
+Missiles can HAVEA POWER_INSTANCE on them, inflicted upon target reach
+The POWER of poison darts (POWER_INSTANCE) leads to the creation of another POWER_INSTANCE (HP hit, movement deBUFF)
+
+Cavalry
+The POWER, upon certain line length, creates a one-shot POWER_INSTANCE which places a speed and damage BUFF on the SQUAD
+
+
+
+/*
+Questions 
+*/
+
+Should POWER_INSTANCES re-add themselves or should the Controller take care of this?
+
+As discrete occurances, SPELLS are able to reused. Due to their continous time usage though, BUFFS require a factory to be made.
+
+
+Triggers:
+Receiving damage(?)
+Dying
+Standing still
+Engaged by multiple squads
+Buff-related - when certain buff is applied
+
+Target: class-based, buff-based
+
+
+
+
+
+
+
+
+

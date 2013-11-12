@@ -1,0 +1,102 @@
+LaunchScreen flow:
+
+The scene has a Global object which carries a GlobalConfig file. This will load the ui.json file and hold it as a JObject.
+
+It also carries a Global.cs, which will get the UI URIs and route them using the DataBinding system.
+
+RouteUI can be called wherever to change and create parts of the UI on the go.
+
+A lot of these are in the DevLauncher, which contains a vast amount of callbacks. Also in BattleConnectController and some others.
+
+The binder (UIButtonBinder) on NGUI prefabs fires an SGEvent.
+
+This is connected via a delegate:
+    Global.Instance.GetUIEvent("dev/battle/_reload").EventHandlers += OnBattleServersReload;
+
+        "_reload": [
+            "topright/battle_servers",
+            "Reload.clicked"
+        ],
+
+Attributes beginning with an underscore in the ui.json appear to extend other prefabs with hooks for their data/events
+The _reload event refers to the event when battle_servers Reload child is clicked.
+
+The DataContext UIButton Binder script has to have the named of the event, which must correspond to the event listed in the ui.json.
+
+
+Back home button adds it's own event handler via the OnControllerSetup function in its Controller.
+Back_home button is created when leaving the lobby. It's probably contains its own behaviour in an exceptional case that no BattleClient scene would know about it in advance to be able to add a delegate. ... but could add via the GetUIEvent no?
+
+How to disable button?
+
+
+Group selection is a curiosity. The SquadsGroupController has a path, and it listens to the OnPathFinished event from it. This is triggered via the drag.
+The SquadsGroupController also has a GroupSelectionPainter which gets the event.
+SquadGroupController is located on the Map... object (just below _Battle)
+
+
+Ability event listening wasn't working because of the huge giant collider on the group select thing. Annoying.
+Need to decouple the event capture with the group stuff.
+
+
+Leaving group selection for a while.
+Potential problem, what if we want to tap group beneath squads feet??
+
+
+Ultimately the input system needs an overhaul. If all the events could be sent through a single InputRouter that would save a lot of problems elsewher ein the code.
+
+
+Only container/root of NGUI object needs a DataContext, children should not have one.
+
+
+Move Input logic over to Session. Can use it there to send RPCs for server behaviour (which can feed back via the Sessions Events framework)
+
+Session needs the collider
+Collider just be instantiated after updates from the map
+Maincontroller gets the map update event
+Maincontroller needs to talk to the sessionkk
+
+
+Incident where sending an RPC needs to trigger certain behaviour.
+
+The path sends a point, which is put in the path, which has a callback. Could just have a callback in the aspect.
+
+
+Stop emulating the emotion you expect people to want
+
+
+Plan:
+
+Put UIRoot and general_ability loading code in battle client -> no need, they persist across the scene change.
+
+Hopefully, as Global is ... global we can put the GetUIEvent delegate call anywhere, i.e. in a general ability specific bit of code.
+
+Create general ability base made up of a simple background.
+
+Add buttons.
+
+Button prefabs fire event which toggle booleans in a script on the player
+
+All touch events check these booleans to define behaviour -> This will be linked to Fingergestures, as currently Fingergestures deals with all our input.
+
+
+Can put logic in the start/middle/end drag bits
+At start we can deploy, or just move a prefab. Like the missile?
+
+
+Now issue is that there's no object for the thing to move, so we might need to raycast
+
+Tell what state a button is in, and turn off all others
+
+Refactor Input into Session
+Send RPC of event to server 
+Fire event to damage squads
+Fire event to show xeffect damaging of squads
+
+Damaging of the squads at the right time is the next biggie. Need to superclass sensor to have a way to check for them, then trigger Tasks to get 'em in the future
+This won't work- need to attack only on the 4.8th second. Could be tricky
+o
+
+
+
+

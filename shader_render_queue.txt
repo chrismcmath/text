@@ -1,0 +1,3 @@
+
+Use a Queue tag in a SubShader to assign the shader to a certain group.
+Transparent starts from 3000, and Overlay from 4000.

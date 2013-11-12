@@ -1,0 +1,36 @@
+
+We tried four game types
+
+1) One ability use every 60 seconds
+2) With a PoC captured, one ability use every 30 seconds
+3) With a PoC captured, one ability use every 60 seconds
+4) With a PoC captured and squad on the PoC, one ability use every 30 seconds (charging will pause when squad leaves PoC)
+
+Both Andrew and Dan prefered 2, with Dan having a second preference for 4.
+
+1 created many standoffs while players waited for a new ability before doing anything. Dan asked at one point "Are we at 60 seconds yet?" indicating that his entire strategy was built around the ability. 
+
+2 had less a problem here, but it was noted it still felt like you were waiting for an ability.
+
+3 Dan loved not being able to use abilities, but again felt that the longer the amount of time before another ability, the more likey it is for players to wait for it, thus dragging out the length of the game.
+
+4 was praised for forcing a comprimise between mining for an ability and losing a squad member. Dan noted the horse had become the de facto PoC gatherer, and that speed had taken on a new dimension with the increased incentive to have a squad on the PoC.
+This created what Dan called a 'risk factor', or as Qiao put it 'you've gotta put something on the line for the ability'
+
+On a seperate note, the optimal use of the abilities themselves were not immediately apparent to either player. Dan felt that the laser communicated more power than it actually had - he also suggested it have a smaller range. The use of the Dragon Fire to create choke points was not immediately clear either. Dan liked likes the idea of having a wall to create choke points- extend the Dragon time, take out bridges etc.
+
+There is great potential for the abilities to augement the current playstyle (I suggest you look at the video of Dan and I playing for a good example of this) but agree with Dan that when they incentivise waiting, it breaks the game. 
+
+Potential other game modes thrown around:
+Merge both, rate of ability charge increases if squad is on PoC
+After kill you get a charge, first blood gets a charge.
+Survivor mode - if two units left, or last squad at very low health, get ability.
+Pocs could be disconnected to winning the game, just there to help bring doomsday abilities to whomever holds them
+
+Could abilities be unlinked to pocs?
+Could abilities be pickups? Promotes exploration, doesn't stop camping for pre-ability matches though
+
+Bug:
+Still have collider issues
+Targeting Circle persists for laser
+Archer still had red line

@@ -1,0 +1,15 @@
+Commands:
+
+cd ~/ember
+vagrant up (launch vagrant box based on settings in the Vagrantfile)
+cd ops/ansible
+ansible-playbook -i hosts/local site.yml (Loads hosts/local and site.yml into the inventory, runs all scripts/functions under)
+
+
+unity/Config will contain all lookups for where servers and databases reside. These will have to be changed manually on a server by server basis (eg local/database.json)
+They also need to be synced with the values under ops/ansible (eg hosts/group_vars/db_node_servers)
+
+
+192.168.33.10 is the petty fun server's IP
+
+http://127.0.0.1:8098/riak/rekon/go#/buckets

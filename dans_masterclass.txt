@@ -1,0 +1,6 @@
+
+Skinning
+
+Skinning does not refer to texturing, but binding parts of the mesh to certain bones. Each node in the bone structure has a range of influence over the mesh which can be edited by a monochrome overlay.
+
+IK and reverse IK, in addition with fixed points, are usually used to quickly create realistic animations.

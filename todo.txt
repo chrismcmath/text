@@ -1,0 +1,147 @@
+What to do about buffs- to have them on the spell view or separate?
+Buff's always come with spells, so if they could be packaged with them that'd be best.
+Or would it? In some situations a spell is repeatedly added to the _Buffs to renew it. Need this information be sent over the network? Perhaps not. Perhaps just sending a buff when it is entered or removed from _Buffs would be easiest?
+
+How does LoL do it? Apparently they don't. 
+But if we can know about buffs ahead of time, isn't that a good opporunity for the client to know as well? Issue is how to stop continual adding of buffs that aren't one-shots.
+
+Let's do AttribController method first, seems more robust (if not as opporunistic).
+
+
+So problem with putting it with spell is it will keep triggering again and again. This is necessary as it is reseting the buff each time it triggers. We don't want this info sent to the client each time, so spells that will continue like this should not have animiations. Essentially we're creating and decoupling two parts of the spell view framework- one for one shot spells, and one for buff entry-removal.
+
+******************************************************************************************************************************************************
+
+When we receive an event, it will have a key. This key will be used to look up the required behaviours in the dictionary, at which point events will be fired on the relevant Views.
+This means the views need to be preprogrammed to accept certain instructions, but these instructions can be passed in straight fromt the dictionary lookup.
+
+Problem with that is every time a spell event is fired we'll have to do the same ol' dictionary lookup to check what we're meant to do with it. Better if it behaves more similarly to the ability framework- get an event, find the relevant object and fire it off. The object will have links to all the relevant things it needs to hit.
+Can have one for spell, buff, attack and whateves.
+
+Also, when spell events are received we need to be able to pass in a squad dymanically and have all these things magically happen to them. As such we could have everything in one function
+
+
+
+******************************************************************************************************************************************************
+
+Update dotfiles
+
+******************************************************************************************************************************************************
+Cavalry charge
+Triggered on being x distance from squad - THIS MEANS TRIGGERS NEED TO BE PARAMETERIZED
+Buff created on trigger "charge"
+
+??? Spell triggered on attack -> melee damage++ buff and removes the charge buff.
+Question, how does this spell get triggered? 
+
+required_buffs: [
+    {
+        target: self/enemy
+        target_radius: 3
+        remove_buff: "charge"
+    }
+]
+remove_buffs: [
+    {
+        target: self/enemy
+        target_radius: 3
+        remove_buff: "charge"
+    }
+]
+
+In initial spell, place a Charging unlimited buff, giving a speed boost
+
+Trigger for payload 
+
+
+need to change way damage works. Have an average and a range (also could have distribution model in future)
+
+For buffs that aren't timed, removal could be implemented in two ways.
+First, have an ability, sole job is to take off previous buffs when conditions are met. This has the advantage of later having spells that can add and remove (i.e. replace) buffs.
+Second, every ability can have a trigger_off attribute which undoes the spell. This closely couples abilities to buffs, something which seems like A Bad Idea
+
+
+Problem with buffs being put into the list again and again. Should charge have a bool on it? We could flip it off quite easily, but how to turn it on again? This leads to all sorts of problems.
+
+Change way spells work- slightly messy but giving each missile a list of AbilityActions rather than Spells prevents code duplication - 
+UNLESS
+we pull ability out to become it's own class, and AbilityAction has a reference to it.
+
+
+One last problem remains.
+If ability is one class, and it can have many triggers and abilities in it, then is it possible that it could trigger TOO MUCH
+What if it has an empty trigger do we even have empty triggers?
+We have a Success Trigger.
+If a GD were to put two triggers, Melee/MissileHit and LineDistance, the trigger would ALWAYS go off
+
+Either create trigger to make sure melee attack is happening
+OR
+put instructions to be careful when having multiple triggers (i.e Melee and MissileHit can only be used alone)
+
+
+Implement buff removal part of the cavalry ability
+Pop stash and continue with SquadView stuff (attrib/buff aspect)
+
+Get solution to multiple trigger problem (think the former is best), will need to identify which status needs to be checked when delivering cavalry's second spell. Also, if added to the root of the tree, this trigger will be checked every frame. Could be expensive.
+
+
+******************************************************************************************************************************************************
+Need way of syncing certain attribs with the client for display -> watched attribs in the AttribController 
+Now events are being fired, but who will listen to them - AttribAspect
+
+Nope nope nope, all wrong. Need to make a SquadEvent, not a SessionEvent.
+
+Should attribs be kept at the session or player level? Player level.
+Also need to move all view stuff out into the view controller framework
+
+
+Now we're in trouble. Do we need to send information about buffs ahead of time?
+Probably not that urgent. Much simpler if we don't, plus the latency won't be evident as the time it takes for the logic (based on new buffs) to reach the client, the buffs would already be there. BUT, this does mean we need to sync the buffs, not static attrib values.
+SquadAttrib changes and visualisation of buffs should almost certainly be treated differently. We can presume all buffs will need to be visualised, whereas only a few attrib changes are needed to be shown on the client.
+
+A problem with my current system is that I'm effectively running two non-synchronised (really don't know what word I want here) systems on the client and the server. To the client, attribs are all that changeds, and buffs are entirely different.
+
+Another method would be to have the watched list on the client, 
+
+Problem is with this is we'd have to send more information- i.e. the delta on each buff, which means more data.
+
+This decision needs to be made after the meeting.
+
+Best, at least for the time being, to keep the attrib sync seperated from the view stuff.
+Attribs can just be data
+View stuff can just be strings.
+Where to keep them both?
+
+
+******************************************************************************************************************************************************
+Sensor size must be dynamic, getting attribs from AttribController
+Also, sensors are currently being updated every frame through the Sensors Controller, perhaps make only the callee resp. for updating it.
+
+Currently radius is being passed in through the Sensor controller. Find way to make this use the Squad Config instead, perhaps by passing in a function.
+
+******************************************************************************************************************************************************
+Certain parts of the Aspects rely on the Config, and now the server-side only AttribController. Find way to decouple the server logic (used by the BT) from the rest.
+
+******************************************************************************************************************************************************
+
+Questions for Park:
+
+Is it necessary to 3NF the json file?
+
+
+    list buffers                             :ls                                   
+open buffer                              :bN (N = buffer number)               
+    print                                    :hardcopy                             
+    sort selected rows                       :sort                                 
+    open file under cursor                   gf                                    
+(absolute path or relative)                                                  
+    convert tabs to spaces                   :retab                                
+playback macro                           @X (X = key macro was assigned to)    
+    replay previously played macro *         @@                                    
+bookmark current place in file           mX (X = key to assign bookmark to)    
+    jump to bookmark                         `X (X = key bookmark was assigned to  
+            ` = back tick/tilde key)          
+    show all bookmarks                       :marks                                
+delete a bookmark                        delm X (X = key bookmark to delete)   
+    delete all bookmarks                     delm!                                 
+    close all other split screens            :only                                 

@@ -1,0 +1,31 @@
+Data Binding & Connect
+
+"sprite/do?key=attack&prefab=squads.effect_sprite#sprite=flash&col=049A99&zoom=0.4#destroy&delay=1.0"
+
+Everything before the '/' is a segment, which defines which sub-handler the URI will be passed to.
+
+In the case of a Squad effect, the SquadEventHandler will send the event to the SquadDispatcher (a subclass of BaseDispatcher, which in turn is a type of Handler). SquadDispatcher picks up the relevant subhandler, where the DataContextHandler/Container (?) will set the corresponding properties on the DataContext.
+DataContextContainer looks at the command (by default, 'do') and the prefab.
+
+The DataContext's properties are populated by the DataBinders on the same object. Data binders usually auto-add themselves when a certain library is being used (eg 2DToolkit, Xffect). When any of these properties are changed, a delegate is fired off which will carry the new properites to the object.
+
+A proxy system is used to deal with each fragment (after the '#') separately. In case of a delay these are fired off after a corountine wait. DataContextContainers and Handlers can be their own proxies (eg in the case of a delay). 
+
+Sometimes it is useful to use certain functions and data from some library in another, and for this purpose the Bridge class was created.
+
+******************************************************************************************************************************************************
+It will be the Dispatcher/Sub handlers duty to setup extra necessary information (eg for Path sprites)
+
+Customize DataContextContainer for this purpose
+
+
+count=32&prefab=DataBinding.GenericSprite#color=0,0,0,1~1,1,1,1&sprite=flash&zoom=0.3~0.9&pos=-20,-20,-20~20,20,20&done.shrink=`zoom=0.2~0.4#color=0,0,0,1~1,1,1,1&delay=0~2&pos+=-1,-1,-1~1,1,1`#play.flash&delay=0~1
+
+create?key=1&prefab=DataBinding.GenericSprite#color=0,0,0,1~1,1,1,1&sprite=flash&zoom=0.3~0.9&pos=-20,-20,-20~20,20,20&done.shrink=`zoom=0.2~0.4#color=0,0,0,1~1,1,1,1&delay=0~2&pos+=-1,-1,-1~1,1,1`#play.flash&delay=0~1
+
+
+do?keycount=32&prefab=DataBinding.GenericSprite#color=0,0,0,1~1,1,1,1&sprite=flash&zoom=0.3~0.9&pos=-20,-20,-20~20,20,20&done.shrink=`zoom=0.2~0.4#color=0,0,0,1~1,1,1,1&delay=0~2&pos+=-1,-1,-1~1,1,1`#play.flash&delay=0~1
+
+sprite/do?key=attack&prefab=squads.effect_sprite#sprite=flash&col=049A99&zoom=0.4#destroy&delay=1.0
+
+

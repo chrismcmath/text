@@ -1,0 +1,24 @@
+SquadRaycaster
+
+Called 'SquadRaycaster' yet is not a generic Squad Raycaster. The layer it checks ("Squad") is hard coded, as is the DEFAULT_COLLIDER_HEIGHT. The former is unnecessary, as we could just use a mask (from a Layer) when we raycast, which will allow it to be reused later. The later relies on data from the squad, which the raycaster should consider (i.e. config stuff).
+
+There was also a sloppy inclusion of a class from the base.
+
+
+If this class was made as the name implies- a generic param-able Raycaster that can be reused for different types of squads (i.e. on different layers), it would imply a new pattern for using FingerGestures. This knowledge could have been utlised to redesign how we were using FingerGestures, to move from a Recognizer-heavy design to a raycaster-heavy design, with the following hierarchy:
+
+FingerGestures (setup, system)
+|-->Group (raycaster)
+    |--->Gesture (recognizer, target) (or shoud target be in the group here?)
+
+This would remove the need for extra recognizing logic. 
+
+
+Recap:
+Duplication is not tolerable, simplicity is the goal.
+Give things consistent, accurate and meaningful names.
+Be careful when refactoring/copying code not to include base's stuff.
+When you have a new piece of knowledge to solve a problem, think how it can be used to redesign the problem space.
+Use data formats that make sense from the beginning to the end point of use.
+Research is vital when entering a new problem domain.
+
