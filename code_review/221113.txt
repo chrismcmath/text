@@ -1,0 +1,9 @@
+Tech review today
+
+Despite feeling like I'm really behind, Park and Andrew seem happy with my work in the NGUI mockups.
+
+Park talked about the importance of being a good manager of yourself. This involves dragging yourself back from the code to look at things at a higher level. He said he himself finds this very difficult, but it is important to turn big tasks into smaller ones.
+
+I should have used a similar approach when making the UIs. If I stopped and commited after doing BattleHome, I could have had a conversation with Andrew about the UI Controllers before going on to make the same mistakes with ArmyManagement.
+
+Trello can be a very good tool to help switch roles and organize. Perhaps use a tag which indicates which tasks should be submitted for review once commited?

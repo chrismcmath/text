@@ -1,0 +1,17 @@
+Talked with Park about code review.
+He said that it made him a better programmer over years of doing them.
+At first we would take notes while going through the patch, but eventually he had enough experience to forgo this and do without.
+
+We looked at the Rerouter, and identified tight coupling between the Global, Dispatcher and Rerouter classes.
+The Dispatcher would init the Rerouter, but it would have to be setup up Global.
+This is a clue that the design has a fault.
+
+Park tracked the cause of this complexity to the need for a _GetUI delegate, which is needed to get the URIs.
+This would then be routed in the ReoutingHandler, using code very similar to  Global's RouteUI().
+
+Now comes the design decision.
+Do we need all DataContextDispatchers to have a rerouter?
+In our case we are only using it once, and it is very straighforward to let Global do it's own rerouting (as it already contains the duplicated code form ReroutingHanlder).
+
+If we did want all dispatchers to have a ReroutingHandler, the coupling could be avoided by coding by convention.
+In this case, rather than being given a Handler in SetupRerouter, it could just take its immediate parent as the handler, which would fulfil a contract to be able to route URIs.

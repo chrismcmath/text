@@ -1,0 +1,11 @@
+Talked with Park about the LobbyModel.
+
+Datacontext (which I'm currently using to store data) imposes a lot of restrictions in its workflow that a LobbyModel shouldn't need to care about. The benefit it gets is events on data changes, but this could quite easily be done bespoke, or in another way.
+
+Of the many versions discussed, Park seemed most drawn to messanger method. Anyone that changes data in the LobbyModel broadcasts a message, which any controller that cares about the data can listen to.
+
+Another point was about translation, which I may have misinterpreted before.
+In this case there is an ActiveArmy getter, which uses ArmyInfo and the active army key from PlayerInfo to return the currently used army.
+This lookup occurs every time anyone wants to use the ActiveArmy.
+My thought was that I wanted to keep the information as similar to the Server side as possible, but it would have been better to think about how it is being used on the client side.
+As such, the translation from Army list and Key to the ActiveArmy is performed every time it is accessed- INCREASING the number of translations.

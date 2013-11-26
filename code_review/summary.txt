@@ -1,0 +1,28 @@
+/* Design Stuff */
+
+Duplication is not tolerable, simplicity is the goal.
+Often duplication is a clue to bad design.
+
+Give things consistent, accurate and meaningful names (eg, distance vs. length).
+This may require abstracting third party library code.
+
+Do not allow the concept of a class to erode.
+What is it for?
+Do not conflate data with use of the data.
+
+Keep a clean API.
+What functionality should users of the class need?
+What shouldn't we provide?
+
+When you have a new piece of knowledge to solve a problem, think how it can be used to redesign the problem space.
+
+When data must go from on part of the system to another, it should undergo as few changes as possible.
+How is it stored?
+How is it used?
+What method requires the least translations?
+
+
+/* Stupid Stuff */
+
+Be careful when refactoring/copying code not to include base's stuff.
+Always test in context after a fix, don't skimp on recreating the actual conditions that led to the error.

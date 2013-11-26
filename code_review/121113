@@ -1,0 +1,33 @@
+Path Stuff
+
+My refactor of the path system was not as flexible as it could have been (w/ little extra work).
+
+This mainly came down to the break in the hierachy I created when I used a SegmentCursor for IndexedLinePath, and ignored the Cursor in the base. This meant that an instance of IndexedPath could not be treated as a Path (broken hierarchy), which also meant it was not possible to switch path type on a whim.
+
+By just adding methods to allow a Cursor (even by faking it with getters) this would have been solved.
+
+Also, a lot of legacy code could have been cleaned up. We can esstentially think of this sort of code as prototype code. Park's idea is that it would be better that we prototyped for the first few months until we got an idea of what systems would work and how to design the overall system. As such we had such messes as the Aspect Coordinator for months that clogged up the codebase and proved very hard to remove. 
+
+I wonder if Braid's 37 odd-thousand lines of code were all put into production, or whether they were all part of the prototyping process.
+
+
+Clean API
+
+The concept of a class is very easy to erode slowly. It is important to keep this concept in mind and design the class hierarchy around it.
+
+In this case 'abstract' is quite a misnomer. The more abstract functions you add to your base, the more concrete it becomes. For exmample, adding AddInputPoint() and AnchorPosition to the base (not to mention AppendPointFromServer) presumes knowledge of the domain that the Path should not have. What does a Path need to know about Client/Server architecture? About user input? About its use in terms of a squad?
+The use of delegates also implies an intelligence this data structure should not have- essentially conflating data storage with data use/functionality. 
+There are two ways to deal with this type of concept erosion. First is to use subclassing to specify certain uses of Path, eg. UserInputPath that knows how to deal with user input. Another is to keep the structure dumb, and leave it to calling classes to use the structure correctly. 
+
+
+When thinking about a code base using one data structure, and need to know about changing, it is tempting to want to use an OnChange delegate. This thought led to an explosion of delegates in the Path base class, as certain classes would only want ot know when a certain thing has changed.
+An alternative to this is to use a 'delegate system' (like our messanger system), which allows the caller to broadcast its own message to update all listeners.
+The DataContext/Connect system is essentially a more powerful version of this. By enabling PropertyListening (and wrapping all attributes in Properties) we essentially have a delegate layer, decoupled from the data layer underneath.
+
+
+another clue is when a function is only called by one user. In this case the onus is on the user to provide this functionality.
+
+
+
+TODO: write about the misnomer that is sudo.
+
